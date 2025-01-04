@@ -1,4 +1,4 @@
-with open("example.txt", "r") as infile:
+with open("examples.txt", "r") as infile:
     numbers = [line.split()[0] for line in infile]
 
 numbers.sort(key=int)
