@@ -63,7 +63,7 @@ void pollards_rho(mpz_t factor, const mpz_t n)
 int main()
 {
     FILE *input_file = fopen("input.txt", "r");
-    FILE *output_file = fopen("output_cpu.txt", "w");
+    FILE *output_file = fopen("output_synchronized.txt", "w");
 
     if (!input_file || !output_file)
     {
@@ -75,6 +75,8 @@ int main()
     mpz_inits(n, factor, NULL);
 
     char n_str[1024];
+
+    clock_t overall_start = clock();
 
     while (fscanf(input_file, "%1023s", n_str) != EOF)
     {
@@ -99,6 +101,12 @@ int main()
 
         fprintf(output_file, "Time taken: %.6f seconds\n\n", time_taken);
     }
+
+    clock_t overall_end = clock();
+    double overall_time = (double)(overall_end - overall_start) / CLOCKS_PER_SEC;
+
+    fseek(output_file, 0, SEEK_SET);
+    fprintf(output_file, "Overall runtime: %.6f seconds\n\n", overall_time);
 
     fclose(input_file);
     fclose(output_file);
