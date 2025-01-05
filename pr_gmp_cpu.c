@@ -112,6 +112,8 @@ int main()
 
     signal(SIGSEGV, sigsegv_handler);
 
+    clock_t overall_start = clock();
+
     while (fscanf(input_file, "%1023s", n_str) != EOF)
     {
         mpz_set_str(n, n_str, 10);
@@ -142,6 +144,11 @@ int main()
             fprintf(output_file, "Segmentation fault encountered, skipping this factorization.\n\n");
         }
     }
+
+    clock_t overall_end = clock();
+    double overall_time_taken = (double)(overall_end - overall_start) / CLOCKS_PER_SEC;
+
+    fprintf(output_file, "Overall time taken: %.6f seconds\n", overall_time_taken);
 
     fclose(input_file);
     fclose(output_file);
